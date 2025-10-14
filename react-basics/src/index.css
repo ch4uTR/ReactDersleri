@@ -1,0 +1,22 @@
+.title h2 {
+  color: brown;
+  text-transform: uppercase;
+  transition: transform 0.3s ease, color 0.3s ease; /* hover animasyonu için */
+}
+
+/* hover animasyonu */
+.title h2:hover {
+  transform: scale(1.05) translateX(20px);
+  color: darkred;
+}
+
+
+.price {
+    color: darkblue;
+    font-weight: 600;
+}
+
+.price-discount{
+    color: #7Fad39;
+    font-weight: 700;
+}
