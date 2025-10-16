@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { sculptureList } from "./data.js";
+import { useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+
+
+
+
+function App(){
+
+  const [index, setIndex] = useState(0) //Bir değişken ve o değişkeni değiştirecek bir metot tanımlıyoruz //Parametre olarak değişkenin başlangıç değerini atıyoruz
+  const [showMore, setShowMore] = useState(false);
+
+  let sculpture = sculptureList[index];
+
+  function handlePreviousClick(){
+    setIndex((index -1 + sculptureList.length) % sculptureList.length);
+    setShowMore(false);
+  }
+
+  function handleNextClick(){
+    setIndex((index + 1) % sculptureList.length);
+    setShowMore(false);
+  }
+
+  function handleMoreClick(){
+    setShowMore(!showMore);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+    <> 
+      <div className='container d-flex align-items-center gap-2'>
+        <div className="card shadow-sm">
+            <img className="card-img-top p-2 p-md-3 border-bottom" src= { sculpture.url } alt= { sculpture.alt }></img>
+            <div className="card-body">
+                <h2 className='card-title fs-4 mb-1'>{sculpture.name}</h2>
+                <p className='text-muted small mb-2'>{sculpture.artist} </p>
+                { showMore && <p id="description" className="card-text"> { sculpture.description } </p> }
+            </div>
+        </div>
+        <div className="d-flex align-items-center gap-2">
+          <button onClick={ handlePreviousClick }>Previous</button>
+          <button onClick={ handleMoreClick }>{ showMore ? "Show Less" : "Show More"}</button>
+          <button onClick={ handleNextClick }>Next</button>
+        </div>
         <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+          ({index + 1} of {sculptureList.length})
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
+
 }
+
 
 export default App
