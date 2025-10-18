@@ -63,7 +63,7 @@ function Form({ onAddItem }){
 }
 
 
-function Table({ items , onDeleteItem, onChangeOrderStatus}){
+function Table({ items , onDeleteItem, onChangeOrderStatus, onQuantityChange}){
   return (
     <table className="table mt-3">
       <thead>
@@ -77,7 +77,7 @@ function Table({ items , onDeleteItem, onChangeOrderStatus}){
       </thead>
       <tbody>
         {items.map(item => (
-          <Item key={item.id} {...item} onDeleteItem = { onDeleteItem } onChangeOrderStatus = { onChangeOrderStatus }/>
+          <Item key={item.id} {...item} onDeleteItem = { onDeleteItem } onChangeOrderStatus = { onChangeOrderStatus } onQuantityChange = { onQuantityChange }/>
         ))}
       </tbody>
     </table>
@@ -88,14 +88,15 @@ function Item(props){
   let orderedStyle = {color: "green", fontWeight: "500", textDecoration : "line-through"};
   let inorderedStyle = {color: "red", fontWeight: "500"};
   let style = props.ordered ?  orderedStyle :  inorderedStyle
+  let buttonClass =  "btn btn-light shadow-sm" ;
 
   return(
     <>
       <tr>
         <td> { props.id } </td>
         <td style = { style}>  { props.title } </td>
-        <td style={ style }> { props.quantity } </td>
-        <td style = { style }> { props.ordered ? "Satıldı" : "Satılmadı" } </td>
+        <td> <button className= { buttonClass } onClick={ () => props.onQuantityChange({item: props, operator: "-"})}>-</button> { props.quantity } <button className= { buttonClass } onClick={ () => props.onQuantityChange({item: props, operator: "+"})}>+</button></td>
+        <td style = { style }> { props.ordered ? "Alındı" : "Alınmadı" } </td>
         <td> <button className= {"btn btn-danger"} onClick={ () => props.onDeleteItem(props) }> { "Sil" }</button></td>
         <td> <button className= { props.ordered ? "btn btn-warning" : "btn btn-success" } onClick={ () => props.onChangeOrderStatus(props)}> { props.ordered ? "Tekrar alınacak olarak işsaretle" : "Alındı olarak işaretle" }</button></td>
       </tr>
@@ -135,13 +136,18 @@ function App(){
     setItems(items => items.map(i => i.id === item.id ? {...i, ordered: !i.ordered} : i ));
   }
 
+  function handleQuantityChange({item, operator}){
+    let newQuantity = operator === "+" ? item.quantity + 1 : item.quantity - 1;
+    setItems(items => items.map(i => i.id == item.id ? {...i, quantity: newQuantity} : i));
+  }
+
 
   return (
     <>
       <div className="container mt-5">
         <Header />
         <Form onAddItem = { handleAddItem } />
-        <Table items = {items} onDeleteItem={ handleDeleteItem} onChangeOrderStatus = { handleOrderStatusChange }/>
+        <Table items = {items} onDeleteItem={ handleDeleteItem} onChangeOrderStatus = { handleOrderStatusChange } onQuantityChange = { handleQuantityChange}/>
         <Summary isFull = {items.length > 0}  count = {items.length}/>
       </div>
     </>
