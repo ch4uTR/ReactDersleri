@@ -1,5 +1,5 @@
 {
-  "name": "react-state",
+  "name": "shopping-list",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "bootstrap": "^5.3.8",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
