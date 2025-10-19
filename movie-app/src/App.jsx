@@ -64,10 +64,16 @@ const selected_movie_list = [
 function App() {
   const [movies, setMovies] = useState(movie_list);
   const [selectedMovies, setSelectedMovies] = useState(selected_movie_list);
+  const [isOpenMovies, setIsOpenMovies] = useState(true);
+  const [isOpenSelectedMovies, setIsOpenSelectedMovies] = useState(true);
 
   function handleSelectMovie(movie) {
     setSelectedMovies((selectedMovies) => [...selectedMovies, movie]);
   }
+
+  let movieButtonIconClassName = !isOpenMovies
+    ? "fa-solid fa-caret-down"
+    : "fa-solid fa-caret-up";
 
   return (
     <>
@@ -91,29 +97,41 @@ function App() {
       <main className="container">
         <div className="row mt-2">
           <div className="col-md-9">
-            <div className="movie-list">
-              <div className="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4">
-                {movies.map((m) => (
-                  <div className="col mb-2" key={m.Id}>
-                    <div className="card">
-                      <img
-                        className="card-img-top"
-                        src={m.Poster}
-                        alt={m.Title}
-                      ></img>
-                      <div className="card-body">
-                        <h6 className="card-title"> {m.Title} </h6>
-                        <div>
-                          <i class="fa-regular fa-calendar-days me-1"></i>
-                          <span> {m.Year} </span>
+            <button
+              className="btn btn-sm btn-outline-primary mb-2"
+              onClick={() => setIsOpenMovies(!isOpenMovies)}
+            >
+              <i
+                className={movieButtonIconClassName}
+                style={{ color: "#74C0FC" }}
+              ></i>
+            </button>
+            {isOpenMovies && (
+              <div className="movie-list">
+                <div className="row row-cols-1 row-cols-md-3 row-cols-xl-5 g-4">
+                  {movies.map((m) => (
+                    <div className="col mb-2" key={m.Id}>
+                      <div className="card">
+                        <img
+                          className="card-img-top"
+                          src={m.Poster}
+                          alt={m.Title}
+                        ></img>
+                        <div className="card-body">
+                          <h6 className="card-title"> {m.Title} </h6>
+                          <div>
+                            <i class="fa-regular fa-calendar-days me-1"></i>
+                            <span> {m.Year} </span>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
+
           <div className="col-md-3">
             <div className="movie-list">
               {selectedMovies.map((m) => (
