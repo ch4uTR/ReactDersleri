@@ -75,6 +75,10 @@ function App() {
     ? "fa-solid fa-caret-down"
     : "fa-solid fa-caret-up";
 
+  let selectedMovieButtonIconClassName = !isOpenSelectedMovies
+    ? "fa-solid fa-caret-down"
+    : "fa-solid fa-caret-up";
+
   return (
     <>
       <nav className="bg-primary text-white p-2">
@@ -133,42 +137,53 @@ function App() {
           </div>
 
           <div className="col-md-3">
-            <div className="movie-list">
-              {selectedMovies.map((m) => (
-                <div className="card mb-2" key={m.Id}>
-                  <div className="row">
-                    <div className="col-4">
-                      <img
-                        src={m.Poster}
-                        alt={m.Title}
-                        className="img-fluid rounded-start"
-                      />
-                    </div>
-                    <div className="col-8">
-                      <div className="card-body">
-                        <h6 className="card-title">{m.Title}</h6>
-                        <div>
-                          <span>
-                            <i
-                              className="fa-solid fa-star me-1"
-                              style={{ color: "#FFD43B" }}
-                            ></i>
-                            {m.Rating}
-                          </span>
-                          <span className="ms-3">
-                            <i
-                              className="fa-solid fa-hourglass-start me-1"
-                              style={{ color: "#FFD43B" }}
-                            ></i>
-                            {m.Duration} min
-                          </span>
+            <button
+              className="btn btn-sm btn-outline-primary mb-2"
+              onClick={() => setIsOpenSelectedMovies(!isOpenSelectedMovies)}
+            >
+              <i
+                className={selectedMovieButtonIconClassName}
+                style={{ color: "#74C0FC" }}
+              ></i>
+            </button>
+            {isOpenSelectedMovies && (
+              <div className="movie-list">
+                {selectedMovies.map((m) => (
+                  <div className="card mb-2" key={m.Id}>
+                    <div className="row">
+                      <div className="col-4">
+                        <img
+                          src={m.Poster}
+                          alt={m.Title}
+                          className="img-fluid rounded-start"
+                        />
+                      </div>
+                      <div className="col-8">
+                        <div className="card-body">
+                          <h6 className="card-title">{m.Title}</h6>
+                          <div>
+                            <span>
+                              <i
+                                className="fa-solid fa-star me-1"
+                                style={{ color: "#FFD43B" }}
+                              ></i>
+                              {m.Rating}
+                            </span>
+                            <span className="ms-3">
+                              <i
+                                className="fa-solid fa-hourglass-start me-1"
+                                style={{ color: "#FFD43B" }}
+                              ></i>
+                              {m.Duration} min
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </main>
